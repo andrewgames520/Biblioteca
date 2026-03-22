@@ -7,7 +7,19 @@ public class Usuario {
 	private String registro;
 	private Date dataNasc;
 	
-	//criar metodo construtor
+	
+	
+	
+	public Usuario(String nome, String registro, Date dataNasc) {
+		super();
+		this.nome = nome;
+		this.registro = registro;
+		this.dataNasc = dataNasc;
+	}
+	
+	public Usuario() {
+		
+	}
 	
 	public String getNome() {
 		return nome;

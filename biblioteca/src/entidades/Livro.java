@@ -62,6 +62,10 @@ public class Livro {
 	public void setEditora(String editora) {
 		this.editora = editora;
 	}
+	
 	//metodo qnt e titulo
+	public void Mostrarqnt(Livro livro) {
+			System.out.println(livro.titulo+"\nQuantidade disponivel: "+livro.qntdisponivel);
+		}
 
 }

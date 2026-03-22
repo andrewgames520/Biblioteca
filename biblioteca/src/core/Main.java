@@ -16,6 +16,8 @@ public class Main {
 		livro2.setTitulo("O Imperador amarelo");
 		livro3.setTitulo("A garota que roubava livros");
 		
+		livro1.setGenero(null);
+		
 		livro1.setQntdisponivel(4);
 		livro2.setQntdisponivel(2);
 		livro3.setQntdisponivel(8);
@@ -24,7 +26,11 @@ public class Main {
 		biblioteca.addlivro(livro2);
 		biblioteca.addlivro(livro3);
 		
+		//biblioteca.removerlivro(livro1);
+		
 		biblioteca.listarLivros();
+		//biblioteca.ListartituloEqnt();
+		livro1.Mostrarqnt(livro1);
 	
 
 	}

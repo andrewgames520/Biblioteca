@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Biblioteca {
 	
-	private List<Livro> livros;
-	private List<Usuario> usuarios;
+	private List <Livro> livros;
+	private List <Usuario> usuarios;
 	public Biblioteca() {
 		this.livros = new ArrayList<Livro>();
 		this.usuarios = new ArrayList<Usuario>();
@@ -24,6 +24,15 @@ public class Biblioteca {
 	}
 
 	//remove um livro
+	/*public void removerlivro(Livro livro) {
+		livro = 
+	}*/
+	public void ListartituloEqnt() {
+		for(Livro livro : livros) {
+			livro.Mostrarqnt(livro);
+		}
+	}
+	
 	
 	//adiciona usuarios
 	
