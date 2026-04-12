@@ -16,16 +16,28 @@ public class Biblioteca {
 	public void addlivro(Livro livro) {
 		this.livros.add(livro);
 	}
-	//listar
-	public void listarLivros() {
+	//add usuario
+	public void adduser(Usuario usuario) {
+		this.usuarios.add(usuario);
+	}
+	//listar livros
+	public void ListarLivros() {
 		for(Livro livro : this.livros) {
-			System.out.println(livro.getTitulo());
+			livro.MostrarTudo(livro);
+			System.out.println();
 		}
 	}
 
-	public void ListartituloEqnt() {
+	public void ListarUsers() {
+		for(Usuario usuario : this.usuarios) {
+			System.out.println(usuario.getNome());
+			System.out.println();
+		}
+	}
+	public void ListarTodos() {
 		for(Livro livro : livros) {
-			livro.Mostrarqnt(livro);
+			livro.Mostrarprincipal(livro);
+			System.out.println();
 		}
 	}
 }

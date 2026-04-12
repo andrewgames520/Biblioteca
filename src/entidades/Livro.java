@@ -1,9 +1,6 @@
 package entidades;
 
 import java.util.Scanner;
-import entidades.Biblioteca;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class Livro {
@@ -26,9 +23,8 @@ public class Livro {
 		this.qntdisponivel = qntdisponivel;
 	}
 	
-	public Livro(String titulo, String genero, Integer qntdisponivel, Integer qntpg) {
+	public Livro(String titulo, Integer qntdisponivel, Integer qntpg) {
 		this.titulo = titulo;
-		this.genero = genero;
 		this.qntdisponivel = qntdisponivel;
 		this.qntpg = qntpg;
 	}
@@ -72,29 +68,46 @@ public class Livro {
 		this.editora = editora;
 	}
 	
-	//metodo qnt e titulo
-	public void Mostrarqnt(Livro livro) {
-			System.out.println(livro.titulo+"\nQuantidade disponivel: "+livro.qntdisponivel);
+	//exibe titulo, autor, editora e qntdisponivel do livro
+	public void Mostrarprincipal(Livro livro) {
+		System.out.println(livro.titulo+"\nAutor:"+ livro.autor + "\nEditora:" + livro.editora + "\nQuantidade disponivel: "+livro.qntdisponivel);
 		}
-	public static Livro criarLivros() {
-		Scanner scan = new Scanner(System.in);
+	//exibe todas as informações de um livro
+	public void MostrarTudo(Livro livro) {
+		System.out.println(livro.titulo+"\nAutor:"+ livro.autor + "\nEditora:" + livro.editora + "\nQuantidade disponivel: "+livro.qntdisponivel);
+		System.out.println("Gênero:" + livro.genero + "\nQuantidade de paginas:" + livro.qntpg);
+	}
+	
+	public static Livro cadastrarLivros(Scanner scan) {
+		String titulo;
+		Integer qntdisponivel;
+		Integer qntpg;
+		
+		do {
 			System.out.println("Digite o titulo do livro");
-			String titulo = scan.nextLine();
+			titulo = scan.nextLine();
 			if(titulo.isBlank()) {
-					 System.out.println("O titulo não pode ser vazio");
+				System.out.println("O titulo não pode ser vazio");
 			}
-			System.out.println("Digite o genero do livro");
-			String genero = scan.nextLine();
+		}while(titulo.isBlank());
+		
+		do {
 			System.out.println("Digite a quantidade disponivel do livro");
-			Integer qntdisponivel = scan.nextInt();
-			if(qntdisponivel<0)
+			qntdisponivel = scan.nextInt();
+			if(qntdisponivel<0) {
 				System.out.println("Quantidade disponivel não pode ser negativa");
+			}
+		}while(qntdisponivel<0);
+		
+		do {
 			System.out.println("Digite a quantidade de paginas do livro");
-			Integer qntpg = scan.nextInt();
-			if(qntpg<=0)
+			qntpg = scan.nextInt();
+			if(qntpg<1)
 				System.out.println("Quantidade de paginas não pode ser menor que 1");
+		}while(qntpg<1);
+			
 			scan.nextLine();
-			Livro livro = new Livro(titulo, genero, qntdisponivel, qntpg);
+			Livro livro = new Livro(titulo, qntdisponivel, qntpg);
 			return livro;
 	}
 }
