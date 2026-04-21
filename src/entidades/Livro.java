@@ -1,6 +1,7 @@
 package entidades;
 
 import java.util.Scanner;
+import entidades.Biblioteca;
 
 
 public class Livro {
@@ -110,4 +111,17 @@ public class Livro {
 			Livro livro = new Livro(titulo, qntdisponivel, qntpg);
 			return livro;
 	}
+	public static void emprestarLivro(String titulo) {
+		Biblioteca bib = new Biblioteca();
+		Livro livro =bib.Buscar(titulo);
+		if(livro ==null) {
+			System.out.println("Livro não encontrado.");
+		}else {
+			if(livro.getQntdisponivel()==0) {
+				System.out.println("Sem copias disponiveis para emprestimo.");
+			}else
+				livro.setQntdisponivel(livro.getQntdisponivel()-1);
+		}
+		
+		}
 }

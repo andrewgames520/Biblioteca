@@ -40,4 +40,14 @@ public class Biblioteca {
 			System.out.println();
 		}
 	}
+	public Livro Buscar(String titulo){
+		for(Livro livro : this.livros) {
+			System.out.println(titulo);
+			if(livro.getTitulo().equalsIgnoreCase(titulo)) {
+				return livro;
+			}
+		}
+		System.out.println("erro");
+		return null;
+	}
 }

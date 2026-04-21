@@ -37,7 +37,8 @@ public class Main {
 		System.out.println("Digite 2 para cadastrar um usuário");
 		System.out.println("Digite 3 para listar usuários");
 		System.out.println("Digite 4 para listar livros");
-		System.out.println("Digite 5 para finalizar o programa");
+		System.out.println("Digite 5 para pegar um emprestimo");
+		System.out.println("Digite 6 para finalizar o programa");
 		controle = scan.nextInt();
 		scan.nextLine();
 		
@@ -55,11 +56,15 @@ public class Main {
 			biblioteca.ListarTodos();
 			break;
 		case 5:
+			System.out.println("Digite o titulo do livro");
+			Livro.emprestarLivro(scan.nextLine());
+			break;
+		case 6:
 			break;
 		default:
 			System.out.println("Digite um numero valido");
 		}
-	}while (controle!=5);
+	}while (controle!=6);
 	scan.close();
 	}
 
