@@ -1,7 +1,7 @@
 package entidades;
 
 import java.util.Scanner;
-import entidades.Biblioteca;
+
 
 
 public class Livro {
@@ -69,9 +69,9 @@ public class Livro {
 		this.editora = editora;
 	}
 	
-	//exibe titulo, autor, editora e qntdisponivel do livro
-	public void Mostrarprincipal(Livro livro) {
-		System.out.println(livro.titulo+"\nAutor:"+ livro.autor + "\nEditora:" + livro.editora + "\nQuantidade disponivel: "+livro.qntdisponivel);
+	//exibe titulo, qntdisponivel, qntpg do livro
+	public void MostrarPrincipal(Livro livro) {
+		System.out.println(livro.titulo+"\nQuantidade disponivel:"+ livro.qntdisponivel +"\nQuantidade de paginas: "+livro.qntpg);
 		}
 	//exibe todas as informações de um livro
 	public void MostrarTudo(Livro livro) {
@@ -111,17 +111,10 @@ public class Livro {
 			Livro livro = new Livro(titulo, qntdisponivel, qntpg);
 			return livro;
 	}
-	public static void emprestarLivro(String titulo) {
-		Biblioteca bib = new Biblioteca();
-		Livro livro =bib.Buscar(titulo);
-		if(livro ==null) {
-			System.out.println("Livro não encontrado.");
-		}else {
-			if(livro.getQntdisponivel()==0) {
-				System.out.println("Sem copias disponiveis para emprestimo.");
-			}else
+	public void EmprestarLivro(Livro livro) {
 				livro.setQntdisponivel(livro.getQntdisponivel()-1);
 		}
-		
+	public  void DevolverLivro(Livro livro) {
+			livro.setQntdisponivel(livro.getQntdisponivel()+1);
 		}
 }
