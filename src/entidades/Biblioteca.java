@@ -2,19 +2,25 @@ package entidades;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Queue;
 
 public class Biblioteca {
 	
 	private List <ItemBiblioteca> items;
 	private List <Usuario> usuarios;
 	private List <Emprestimo> emprestimos; 
-	public Biblioteca() {
-		this.items = new ArrayList<ItemBiblioteca>();
-		this.usuarios = new ArrayList<Usuario>();
-		this.emprestimos = new ArrayList<Emprestimo>();
-	}
+	private Queue<Usuario> filaReservas;
+	private ItemBiblioteca itemReservado;
+	 
+	  public Biblioteca() {
+	        this.items = new ArrayList<>();
+	        this.usuarios = new ArrayList<>();
+	        this.emprestimos = new ArrayList<>();
+	        this.filaReservas = new LinkedList<>();
+	    }
 	
 	//add livro
 	public void addItem(ItemBiblioteca item) {
@@ -57,6 +63,38 @@ public class Biblioteca {
 		}
 		return null;
 	}
+	
+	public void ListarTipo(Scanner scan){
+		System.out.println("Digite 1 para listar livros");
+		System.out.println("Digite 2 para listar revistas");
+		System.out.println("Digite 3 para listar Teses");
+		Integer tipo = scan.nextInt();
+		switch (tipo) {
+		case 1:
+			for(ItemBiblioteca item : this.items) {
+				if(item instanceof Livro) {
+					item.exibirDetalhes();
+				}
+			}
+			break;
+		case 2:
+			for(ItemBiblioteca item : this.items) {
+				if(item instanceof Revista) {
+					item.exibirDetalhes();
+				}
+			}
+			break;
+		case 3:
+			for(ItemBiblioteca item : this.items) {
+				if(item instanceof Tese) {
+					item.exibirDetalhes();
+				}
+			}
+			
+		}
+		
+	}
+	
 	//add usuario
 	public void adduser(Usuario usuario) {
 		this.usuarios.add(usuario);
@@ -83,14 +121,19 @@ public class Biblioteca {
 	}
 	
 	public void Emprestar(Biblioteca biblioteca, Usuario usuario, ItemBiblioteca item) {
-		if(item.getQntDisponivel()==0) {
-			System.out.println("Nenhuma copia disponivel para emprestimo\n");
+		if(usuario.PodeFazerEmprestimo()) {
+			if(item.getQntDisponivel()==0) {
+				System.out.println("Nenhuma copia disponivel para emprestimo\n");
+			}else {
+				LocalDate dataEmprestimo = LocalDate.now();
+				Emprestimo emprestimo = new Emprestimo(item, usuario, dataEmprestimo, dataEmprestimo.plusDays(7), "ativo");
+				biblioteca.addemprestimo(emprestimo);
+				usuario.addemprestimoAtv(emprestimo);
+				item.EmprestarItem(item);
+				System.out.println("Emprestimo realizado com sucesso\n");
+			}
 		}else {
-			LocalDate dataEmprestimo = LocalDate.now();
-			Emprestimo emprestimo = new Emprestimo(item, usuario, dataEmprestimo, dataEmprestimo.plusDays(7), "ativo");
-			biblioteca.addemprestimo(emprestimo);
-			item.EmprestarItem(item);
-			System.out.println("Emprestimo realizado com sucesso\n");
+			System.out.println("Maximo de emprestimos simultaneos atingido");
 		}
 	}
 	public void Devolver(Biblioteca biblioteca, Usuario usuario, ItemBiblioteca item, Emprestimo emprestimo) {
@@ -100,6 +143,7 @@ public class Biblioteca {
 			emprestimo.setStatus("Entregue");
 			item.DevolverItem(item);
 			emprestimo.CalcularMulta(emprestimo);
+			usuario.removeremprestimoAtv(emprestimo);
 			System.out.println("Devolução realizada com sucesso\n");
 		}
 	}
@@ -124,15 +168,52 @@ public class Biblioteca {
 				emprestimo.EmprestimoPrincipal();
 		}
 	}
-	public void ListarEmprestimosUsuario(Scanner scan) {
-		System.out.println("Digite o nome completo do usuario");
-		String nome = scan.nextLine();
-		for(Emprestimo emprestimo : emprestimos) {
-			if(emprestimo.getUsuario().getNome().equals(nome)) {
-				System.out.println(emprestimo.getItem().getTitulo());
-				System.out.println(emprestimo.getStatus());
-				System.out.println();
-			}
-		}
-	}
+	 public void adicionarReserva(ItemBiblioteca item, Usuario usuario) {
+	        if (item.getQntDisponivel()!=0) {
+	            System.out.println("Item disponível, não é necessário reserva!");
+	            return;
+	        }
+
+	        if (itemReservado == null || !itemReservado.equals(item)) {
+	            itemReservado = item;
+	            filaReservas.clear();
+	        }
+
+	        filaReservas.add(usuario);
+	        System.out.println("Usuário " + usuario.getNome() + " adicionado à fila de reserva de " + item.getTitulo());
+	    }
+
+	    // Relatórios
+	    public void listarEmprestimosAtivos() {
+	        System.out.println("\nEmprestimos ativos");
+	        boolean temAtivos = false;
+	        for (Emprestimo e : emprestimos) {
+	            if (e.isAtivo()) {
+	                e.EmprestimoPrincipal();
+	                temAtivos = true;
+	            }
+	        }
+	        if (!temAtivos) {
+	            System.out.println("Nenhum empréstimo ativo no momento.");
+	        }
+	    }
+
+	    public void listarEmprestimosFinalizados() {
+	        System.out.println("\nEmprestimos Finalizados");
+	        for (Emprestimo e : emprestimos) {
+	            if (!e.isAtivo()) {
+	                e.EmprestimoPrincipal();
+	            }
+	        }
+	    }
+
+	    public void listarEmprestimosPorUsuario(Usuario usuario) {
+	        System.out.println("\nEmprestimo de: " + usuario.getNome().toUpperCase() + " ");
+	        for (Emprestimo e : emprestimos) {
+	            if (e.getUsuario().equals(usuario)) {
+	                e.EmprestimoPrincipal();
+	            }
+	        }
+	    }
+	
 }

@@ -6,6 +6,7 @@ import entidades.Tese;
 
 import java.time.LocalDate;
 import entidades.Usuario;
+import entidades.Aluno;
 import entidades.Biblioteca;
 import entidades.Emprestimo;
 import entidades.ItemBiblioteca;
@@ -21,7 +22,7 @@ public class Main {
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDate data = LocalDate.parse("27/03/2024", formatter);
-		Usuario usuario = new Usuario("Andrew Rodrigues", "106", data);
+		Aluno aluno = new Aluno("Andrew Rodrigues", "106", data);
 		
 		Biblioteca biblioteca = new Biblioteca();
 
@@ -33,7 +34,7 @@ public class Main {
 		biblioteca.addItem(livro2);
 		biblioteca.addItem(livro3);
 		
-		biblioteca.adduser(usuario);
+		biblioteca.adduser(aluno);
 		
 		Scanner scan = new Scanner(System.in);
 		
@@ -42,7 +43,7 @@ public class Main {
 		System.out.println("\nDigite 1 para cadastrar um livro");
 		System.out.println("Digite 2 para cadastrar uma revista");
 		System.out.println("Digite 3 para cadastrar uma tese");
-		System.out.println("Digite 4 para cadastrar um usuário");
+		System.out.println("Digite 4 para cadastrar um aluno");
 		System.out.println("Digite 5 para listar usuários");
 		System.out.println("Digite 6 para listar os items");
 		System.out.println("Digite 7 para pegar um emprestimo");
@@ -50,6 +51,7 @@ public class Main {
 		System.out.println("Digite 9 para listar emprestimos ativos");
 		System.out.println("Digite 10 para listar emprestimos finalizados");
 		System.out.println("Digite 11 listar todos emprestimos de um usuario");
+		System.out.println("Digite 12 listar por tipo");
 		System.out.println("Digite 0 para finalizar o programa");
 		controle = scan.nextInt();
 		scan.nextLine();
@@ -65,7 +67,7 @@ public class Main {
 			biblioteca.addItem(Tese.CadastrarTese(scan));
 			break;
 		case 4:
-			biblioteca.adduser(Usuario.cadastrarUser(scan));
+			biblioteca.adduser(Aluno.cadastrarAluno(scan));
 			break;
 		case 5:
 			biblioteca.ListarUsers();
@@ -98,11 +100,11 @@ public class Main {
 			if(item == null && user == null) {
 				System.out.println("Usuario ou item invalido");
 			}else{
-				emprestimo = biblioteca.BuscarEmprestimo(usuario, item);
+				emprestimo = biblioteca.BuscarEmprestimo(user, item);
 				if(emprestimo == null) {
 					System.out.println("Emprestimo não encontrado");
 				}else
-					biblioteca.Devolver(biblioteca, usuario, item, emprestimo);
+					biblioteca.Devolver(biblioteca, user, item, emprestimo);
 			}
 			break;
 		case 9:
@@ -112,8 +114,12 @@ public class Main {
 			biblioteca.ListarEmprestimosFinalizados();
 			break;
 		case 11:
-			biblioteca.ListarEmprestimosUsuario(scan);
+			System.out.println("Digite o nome completo");
+			user = biblioteca.BuscarUsuario(scan.nextLine());
+			user.ExibirEmprestimos();
 			break;
+		case 12:
+			biblioteca.ListarTipo(scan);
 		case 0:
 			break;
 		default:
