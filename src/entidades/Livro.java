@@ -20,6 +20,10 @@ public class Livro extends ItemBiblioteca {
 		super(titulo, genero, editora, qtdDisponivel, qntpg, classificacaoIndicativa);
 		this.autor = autor;
 	}
+	public Livro(String titulo, String autor, Integer qtdDisponivel) {
+		super(titulo, qtdDisponivel);
+		this.autor = autor;
+	}
 
 	public Livro(String titulo, Integer qntDisponivel, Integer qntpg) {
 		super(titulo, qntDisponivel, qntpg);

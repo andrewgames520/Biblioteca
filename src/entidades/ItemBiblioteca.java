@@ -24,6 +24,10 @@ public class ItemBiblioteca {
 		this.QntDisponivel = QntDisponivel;
 		this.qntpg = qntpg;
 	}
+	public ItemBiblioteca(String titulo, Integer QntDisponivel) {
+		this.titulo = titulo;
+		this.QntDisponivel = QntDisponivel;
+	}
 
 	public String getClassificacaoIndicativa() {
 		return classificacaoIndicativa;

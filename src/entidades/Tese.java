@@ -11,6 +11,13 @@ public class Tese extends ItemBiblioteca {
 	public Tese(String titulo, Integer  QntDisponivel, Integer Qntpg) {
 		super(titulo, QntDisponivel, Qntpg);
 	}
+	
+	public Tese(String titulo, Integer  QntDisponivel, String Autor, String Orientador, String AreaPesquisa) {
+		super(titulo, QntDisponivel);
+		this.Autor = Autor;
+		this.Orientador = Orientador;
+		this.AreaPesquisa = AreaPesquisa;
+	}
 
 	
 	public String getAutor() {
@@ -42,7 +49,9 @@ public class Tese extends ItemBiblioteca {
 		AreaPesquisa = areaPesquisa;
 	}
 
-
+	public void exibirDetalhes() {
+		System.out.println(this.getTitulo() + " - " + this.getAutor() + " - " + this.getOrientador());
+	}
 	public static Tese CadastrarTese(Scanner scan) {
 		String titulo;
 		Integer qntdisponivel = null;

@@ -25,7 +25,7 @@ public class ServidorAdministrativo extends Usuario {
 		}while(nome.isBlank());
 		
 		do {
-			System.out.println("Digite o regsitro");
+			System.out.println("Digite o registro");
 			registro = scan.nextLine();
 			if(registro.isBlank()) {
 				System.out.println("O registro não pode ser vazio");
