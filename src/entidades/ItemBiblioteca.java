@@ -63,7 +63,7 @@ public class ItemBiblioteca {
 	}
 	
 	public void exibirDetalhes() {
-		System.out.println(this.getTitulo() + " - " + this.getEditora());
+		System.out.println(this.getTitulo() + " - " + this.getQntDisponivel());
 	}
 	
 	public void EmprestarItem(ItemBiblioteca item) {

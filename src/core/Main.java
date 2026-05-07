@@ -40,42 +40,23 @@ public class Main {
 		
 		int controle =0;
 	do {
-		System.out.println("\nDigite 1 para cadastrar um livro");
-		System.out.println("Digite 2 para cadastrar uma revista");
-		System.out.println("Digite 3 para cadastrar uma tese");
-		System.out.println("Digite 4 para cadastrar um aluno");
-		System.out.println("Digite 5 para listar usuários");
-		System.out.println("Digite 6 para listar os items");
-		System.out.println("Digite 7 para pegar um emprestimo");
-		System.out.println("Digite 8 para devolver um emprestimo");
-		System.out.println("Digite 9 para listar emprestimos ativos");
-		System.out.println("Digite 10 para listar emprestimos finalizados");
-		System.out.println("Digite 11 listar todos emprestimos de um usuario");
-		System.out.println("Digite 12 listar por tipo");
+		System.out.println("1 - menu item");
+		System.out.println("2 - menu usuario");
+		System.out.println("3 - emprestimo");
+		System.out.println("4 - devolvolução");
+		System.out.println("5 - listar emprestimos ativos");
+		System.out.println("Digite 6 para listar emprestimos finalizados");
+		System.out.println("Digite 7 listar por tipo");
 		System.out.println("Digite 0 para finalizar o programa");
 		controle = scan.nextInt();
 		scan.nextLine();
 		
 		switch (controle) {
 		case 1:
-			biblioteca.addItem(Livro.CadastrarLivros(scan));
-			break;
+			ItemMenu(scan, biblioteca);
 		case 2:
-			biblioteca.addItem(Revista.CadastrarRevista(scan));
-			break;
-		case 3:
-			biblioteca.addItem(Tese.CadastrarTese(scan));
-			break;
-		case 4:
-			biblioteca.adduser(Aluno.cadastrarAluno(scan));
-			break;
-		case 5:
-			biblioteca.ListarUsers();
-			break;
-		case 6:
-			biblioteca.ListarTodos();
-			break;
-		case 7:
+			UserMenu(scan, biblioteca);
+		case 7: //pega emprestimo
 			System.out.println("Digite o nome completo do usuario");
 			Usuario user;
 			ItemBiblioteca item;
@@ -89,7 +70,7 @@ public class Main {
 			}else
 				biblioteca.Emprestar(biblioteca, user, item);
 			break;
-		case 8:
+		case 8: //devolver emprestimo
 			Emprestimo emprestimo;
 			System.out.println("Digite o nome completo do usuario");
 			user = biblioteca.BuscarUsuario(scan.nextLine());
@@ -107,18 +88,13 @@ public class Main {
 					biblioteca.Devolver(biblioteca, user, item, emprestimo);
 			}
 			break;
-		case 9:
+		case 9: //listar emprestimos ativos
 			biblioteca.ListarEmprestimosAtivos();
 			break;
-		case 10:
+		case 10: //listar emprestimos finalizados
 			biblioteca.ListarEmprestimosFinalizados();
 			break;
-		case 11:
-			System.out.println("Digite o nome completo");
-			user = biblioteca.BuscarUsuario(scan.nextLine());
-			user.ExibirEmprestimos();
-			break;
-		case 12:
+		case 12: //listar por tipo
 			biblioteca.ListarTipo(scan);
 		case 0:
 			break;
@@ -127,6 +103,73 @@ public class Main {
 		}
 	}while (controle!=0);
 	scan.close();
+	}
+	private static void UserMenu(Scanner scan, Biblioteca biblioteca) {
+		Integer opcao;
+		Usuario user;
+		do {
+			System.out.println("1 - cadastrar um Usuario");
+			System.out.println("2 - listar usuários");
+			System.out.println("3 - listar emprestimos do usuario");
+			System.out.println("0 - voltar");
+			opcao = scan.nextInt();
+			scan.nextLine();
+			switch (opcao){
+			case 0:
+				break;
+			case 1:
+				biblioteca.adduser(Aluno.cadastrarAluno(scan));
+				break;
+			case 2:
+				biblioteca.ListarUsers();
+				break;
+			case 3:
+				System.out.println("Digite o nome completo");
+				user = biblioteca.BuscarUsuario(scan.nextLine());
+				user.ExibirEmprestimos();
+				break;
+			default:
+				System.out.println("Opção incorreta");
+			}
+		}while(opcao !=0);
+	}
+	
+	private static void ItemMenu(Scanner scan, Biblioteca biblioteca) {
+		Integer opcao;
+		ItemBiblioteca item;
+		do {
+			System.out.println("\n1 - cadastrar livro");
+			System.out.println("2 - cadastrar revista");
+			System.out.println("3 - cadastrar tese");
+			System.out.println("4 - listar itens");
+			System.out.println("5 - listar emprestimos do usuario");
+			System.out.println("0 - voltar");
+			opcao = scan.nextInt();
+			scan.nextLine();
+			switch (opcao){
+			case 0:
+				break;
+			case 1:
+				biblioteca.addItem(Livro.CadastrarLivros(scan));
+				break;
+			case 2:
+				biblioteca.addItem(Revista.CadastrarRevista(scan));
+				break;
+			case 3:
+				biblioteca.addItem(Tese.CadastrarTese(scan));
+				break;
+			case 4:
+				biblioteca.ListarTodos();
+				break;
+			case 5:
+				System.out.println("Digite o nome completo");
+				user = biblioteca.BuscarUsuario(scan.nextLine());
+				user.ExibirEmprestimos();
+				break;
+			default:
+				System.out.println("Opção incorreta");
+			}
+		}while(opcao !=0);
 	}
 
 }

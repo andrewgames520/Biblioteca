@@ -8,19 +8,19 @@ private ItemBiblioteca item;
 private Usuario usuario;
 private LocalDate DataEmprestimo;
 private LocalDate DataDev;
-private String Status;
+private Boolean Status;
 private Double Multa;
-private Boolean ativo;
 
-public Emprestimo(ItemBiblioteca item, Usuario usuario, LocalDate dataEmprestimo, LocalDate dataDev, String status) {
+
+public Emprestimo(ItemBiblioteca item, Usuario usuario, LocalDate dataEmprestimo, LocalDate dataDev, Boolean status) {
 	this.item = item;
 	this.usuario = usuario;
-	DataEmprestimo = dataEmprestimo;
-	DataDev = dataDev;
-	Status = status;
+	this.DataEmprestimo = dataEmprestimo;
+	this.DataDev = dataDev;
+	this.Status = status;
 }
 
-public boolean isAtivo() { return ativo; }
+public boolean isAtivo() { return Status; }
 
 public ItemBiblioteca getItem() {
 	return item;
@@ -54,14 +54,13 @@ public void setDataDev(LocalDate dataDev) {
 	DataDev = dataDev;
 }
 
-public String getStatus() {
+public Boolean getStatus() {
 	return Status;
 }
 
-public void setStatus(String status) {
+public void setStatus(Boolean status) {
 	Status = status;
 }
-
 
 public Double getMulta() {
 	return Multa;

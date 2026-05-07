@@ -126,7 +126,7 @@ public class Biblioteca {
 				System.out.println("Nenhuma copia disponivel para emprestimo\n");
 			}else {
 				LocalDate dataEmprestimo = LocalDate.now();
-				Emprestimo emprestimo = new Emprestimo(item, usuario, dataEmprestimo, dataEmprestimo.plusDays(7), "ativo");
+				Emprestimo emprestimo = new Emprestimo(item, usuario, dataEmprestimo, dataEmprestimo.plusDays(7), true);
 				biblioteca.addemprestimo(emprestimo);
 				usuario.addemprestimoAtv(emprestimo);
 				item.EmprestarItem(item);
@@ -137,15 +137,20 @@ public class Biblioteca {
 		}
 	}
 	public void Devolver(Biblioteca biblioteca, Usuario usuario, ItemBiblioteca item, Emprestimo emprestimo) {
-		if(emprestimo.getStatus().equals("Entregue")) {
+		if(emprestimo.getStatus()) {
 			System.out.println("Este emprestimo já foi devolvido\n");
 		}else {
-			emprestimo.setStatus("Entregue");
+			emprestimo.setStatus(false);
 			item.DevolverItem(item);
 			emprestimo.CalcularMulta(emprestimo);
 			usuario.removeremprestimoAtv(emprestimo);
 			System.out.println("Devolução realizada com sucesso\n");
 		}
+		 // Verificar fila de reserva
+        if (!filaReservas.isEmpty() && item.equals(itemReservado)) {
+            Usuario proximo = filaReservas.poll();
+            System.out.println(" Próximo da fila de reserva: " + proximo.getNome());
+        }
 	}
 	
 	public Emprestimo BuscarEmprestimo(Usuario usuario, ItemBiblioteca item){
@@ -158,13 +163,13 @@ public class Biblioteca {
 	}
 	public void ListarEmprestimosAtivos() {
 		for(Emprestimo emprestimo : this.emprestimos) {
-			if(emprestimo.getStatus().equals("ativo"))
+			if(emprestimo.getStatus())
 				emprestimo.EmprestimoPrincipal();
 		}
 	}
 	public void ListarEmprestimosFinalizados() {
 		for(Emprestimo emprestimo : this.emprestimos) {
-			if(emprestimo.getStatus().equals("Entregue"))
+			if(!emprestimo.getStatus())
 				emprestimo.EmprestimoPrincipal();
 		}
 	}
@@ -183,37 +188,5 @@ public class Biblioteca {
 	        System.out.println("Usuário " + usuario.getNome() + " adicionado à fila de reserva de " + item.getTitulo());
 	    }
 
-	    // Relatórios
-	    public void listarEmprestimosAtivos() {
-	        System.out.println("\nEmprestimos ativos");
-	        boolean temAtivos = false;
-	        for (Emprestimo e : emprestimos) {
-	            if (e.isAtivo()) {
-	                e.EmprestimoPrincipal();
-	                temAtivos = true;
-	            }
-	        }
-	        if (!temAtivos) {
-	            System.out.println("Nenhum empréstimo ativo no momento.");
-	        }
-	    }
-
-	    public void listarEmprestimosFinalizados() {
-	        System.out.println("\nEmprestimos Finalizados");
-	        for (Emprestimo e : emprestimos) {
-	            if (!e.isAtivo()) {
-	                e.EmprestimoPrincipal();
-	            }
-	        }
-	    }
-
-	    public void listarEmprestimosPorUsuario(Usuario usuario) {
-	        System.out.println("\nEmprestimo de: " + usuario.getNome().toUpperCase() + " ");
-	        for (Emprestimo e : emprestimos) {
-	            if (e.getUsuario().equals(usuario)) {
-	                e.EmprestimoPrincipal();
-	            }
-	        }
-	    }
 	
 }
